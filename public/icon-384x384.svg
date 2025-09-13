@@ -1,0 +1,7 @@
+<svg width="384" height="384" xmlns="http://www.w3.org/2000/svg">
+    <rect width="384" height="384" rx="64" fill="#3B82F6"/>
+    <g transform="translate(96, 96)">
+      <path d="M48 0C24 0 0 24 0 48V96H96C120 96 192 120 192 192V288C192 312 120 384 96 384H96C24 384 0 312 0 288V192C0 120 24 96 48 96H96V48C96 24 120 0 192 0Z" fill="white"/>
+      <circle cx="96" cy="240" r="24" fill="white"/>
+    </g>
+  </svg>

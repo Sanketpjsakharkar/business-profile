@@ -1,0 +1,7 @@
+<svg width="72" height="72" xmlns="http://www.w3.org/2000/svg">
+    <rect width="72" height="72" rx="12" fill="#3B82F6"/>
+    <g transform="translate(18, 18)">
+      <path d="M9 0C4.5 0 0 4.5 0 9V18H18C22.5 18 36 22.5 36 36V54C36 58.5 22.5 72 18 72H18C4.5 72 0 58.5 0 54V36C0 22.5 4.5 18 9 18H18V9C18 4.5 22.5 0 36 0Z" fill="white"/>
+      <circle cx="18" cy="45" r="4.5" fill="white"/>
+    </g>
+  </svg>

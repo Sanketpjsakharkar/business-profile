@@ -1,0 +1,7 @@
+<svg width="152" height="152" xmlns="http://www.w3.org/2000/svg">
+    <rect width="152" height="152" rx="25" fill="#3B82F6"/>
+    <g transform="translate(38, 38)">
+      <path d="M19 0C9.5 0 0 9.5 0 19V38H38C47.5 38 76 47.5 76 76V114C76 123.5 47.5 152 38 152H38C9.5 152 0 123.5 0 114V76C0 47.5 9.5 38 19 38H38V19C38 9.5 47.5 0 76 0Z" fill="white"/>
+      <circle cx="38" cy="95" r="9.5" fill="white"/>
+    </g>
+  </svg>
