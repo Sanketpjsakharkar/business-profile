@@ -1,9 +1,11 @@
 'use client'
 
+import { QRCodeDisplay } from '@/components/QRCodeDisplay'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { LoadingSpinner } from '@/components/ui/loading'
 import { ContactInfo, Profile } from '@/types/profile'
 import { addToContacts } from '@/utils/contacts'
 import {
@@ -111,17 +113,17 @@ export function MobileProfileView({ profile }: MobileProfileViewProps) {
             </div>
 
             {/* Mobile App Content */}
-            <div className="flex-1 overflow-y-auto mobile-native-scroll pb-20">
+            <main className="flex-1 overflow-y-auto mobile-native-scroll pb-20" role="main">
                 {/* Profile Section */}
                 {activeSection === 'profile' && (
-                    <div className="px-6 py-6 pb-8 space-y-6 animate-slide-up">
+                    <section className="px-6 py-6 pb-8 space-y-6 animate-slide-up" aria-label="Profile information">
                         {/* Profile Hero Card */}
                         <Card className="border-0 shadow-xl bg-white rounded-3xl overflow-hidden">
                             <CardContent className="p-8 text-center">
                                 {/* Avatar */}
                                 <div className="relative mb-6">
                                     <Avatar className="w-32 h-32 mx-auto border-4 border-white shadow-2xl ring-4 ring-business-100">
-                                        <AvatarImage src="" className="object-cover" />
+                                        <AvatarImage src={profile.avatar_url} className="object-cover" />
                                         <AvatarFallback className="text-2xl font-bold bg-corporate-600 text-white">
                                             {profile.profile_type === 'individual'
                                                 ? `${profile.first_name?.[0] || ''}${profile.last_name?.[0] || ''}`
@@ -194,12 +196,12 @@ export function MobileProfileView({ profile }: MobileProfileViewProps) {
                                 </CardContent>
                             </Card>
                         </div>
-                    </div>
+                    </section>
                 )}
 
                 {/* Contact Section */}
                 {activeSection === 'contact' && (
-                    <div className="px-6 py-6 pb-8 space-y-4 animate-slide-up">
+                    <section className="px-6 py-6 pb-8 space-y-4 animate-slide-up" aria-label="Contact information">
                         <h2 className="text-xl font-bold text-business-900 mb-4">Contact Information</h2>
 
                         {/* Email Card */}
@@ -252,12 +254,12 @@ export function MobileProfileView({ profile }: MobileProfileViewProps) {
                                 </CardContent>
                             </Card>
                         )}
-                    </div>
+                    </section>
                 )}
 
                 {/* Social Section */}
                 {activeSection === 'social' && (
-                    <div className="px-6 py-6 pb-8 space-y-4 animate-slide-up">
+                    <section className="px-6 py-6 pb-8 space-y-4 animate-slide-up" aria-label="Social networks">
                         <h2 className="text-xl font-bold text-business-900 mb-4">Social Networks</h2>
 
                         {Object.keys(socialLinks).filter(key => socialLinks[key]).map((platform) => (
@@ -280,18 +282,23 @@ export function MobileProfileView({ profile }: MobileProfileViewProps) {
                                 </CardContent>
                             </Card>
                         ))}
-                    </div>
+                    </section>
                 )}
 
                 {/* QR Section */}
                 {activeSection === 'qr' && (
-                    <div className="px-6 py-6 pb-8 space-y-6 animate-slide-up">
+                    <section className="px-6 py-6 pb-8 space-y-6 animate-slide-up" aria-label="Share profile">
                         <h2 className="text-xl font-bold text-business-900 mb-4">Share Profile</h2>
 
                         <Card className="border-0 shadow-xl bg-white rounded-3xl">
                             <CardContent className="p-8 text-center">
-                                <div className="w-64 h-64 bg-business-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                                    <QrCode className="w-32 h-32 text-corporate-600" />
+                                <div className="w-64 h-64 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 border border-business-100 p-4">
+                                    <QRCodeDisplay
+                                        url={typeof window !== 'undefined' ? window.location.href : `http://192.168.1.7:3000/${profile.country_code}/${profile.username}`}
+                                        title=""
+                                        size={224}
+                                        showActions={false}
+                                    />
                                 </div>
                                 <h3 className="text-lg font-semibold text-business-900 mb-2">Scan to Connect</h3>
                                 <p className="text-business-600 mb-6">Share this QR code to instantly connect</p>
@@ -304,40 +311,58 @@ export function MobileProfileView({ profile }: MobileProfileViewProps) {
                                 </Button>
                             </CardContent>
                         </Card>
-                    </div>
+                    </section>
                 )}
-            </div>
+            </main>
 
             {/* Mobile Bottom Navigation */}
-            <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-business-200 safe-area-bottom">
-                <div className="flex items-center justify-around py-2">
+            <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-business-200 safe-area-bottom" role="navigation" aria-label="Profile navigation">
+                <div className="flex items-center justify-around py-2 px-2">
                     {/* Profile Tab */}
                     <button
                         onClick={() => setActiveSection('profile')}
-                        className={`flex flex-col items-center p-3 mobile-tap mobile-haptic transition-colors ${activeSection === 'profile' ? 'text-corporate-600' : 'text-business-400'}`}
+                        aria-label="View profile information"
+                        aria-pressed={activeSection === 'profile'}
+                        className={`flex flex-col items-center p-3 mobile-tap mobile-haptic transition-all duration-300 rounded-2xl relative focus:outline-none focus:ring-2 focus:ring-corporate-500 focus:ring-offset-2 ${activeSection === 'profile'
+                            ? 'text-corporate-600 bg-corporate-50 scale-105'
+                            : 'text-business-400 hover:text-business-600 hover:bg-business-50'
+                            }`}
                     >
-                        <User className="w-6 h-6 mb-1" />
+                        <User className={`w-6 h-6 mb-1 transition-transform ${activeSection === 'profile' ? 'scale-110' : ''}`} />
                         <span className="text-xs font-medium">Profile</span>
+                        {activeSection === 'profile' && (
+                            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-corporate-600 rounded-full animate-pulse" />
+                        )}
                     </button>
 
                     {/* Contact Tab */}
                     <button
                         onClick={() => setActiveSection('contact')}
-                        className={`flex flex-col items-center p-3 mobile-tap mobile-haptic transition-colors ${activeSection === 'contact' ? 'text-corporate-600' : 'text-business-400'}`}
+                        aria-label="View contact information"
+                        aria-pressed={activeSection === 'contact'}
+                        className={`flex flex-col items-center p-3 mobile-tap mobile-haptic transition-all duration-300 rounded-2xl relative focus:outline-none focus:ring-2 focus:ring-corporate-500 focus:ring-offset-2 ${activeSection === 'contact'
+                            ? 'text-corporate-600 bg-corporate-50 scale-105'
+                            : 'text-business-400 hover:text-business-600 hover:bg-business-50'
+                            }`}
                     >
-                        <Mail className="w-6 h-6 mb-1" />
+                        <Mail className={`w-6 h-6 mb-1 transition-transform ${activeSection === 'contact' ? 'scale-110' : ''}`} />
                         <span className="text-xs font-medium">Contact</span>
+                        {activeSection === 'contact' && (
+                            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-corporate-600 rounded-full animate-pulse" />
+                        )}
                     </button>
 
                     {/* Center Action Button */}
                     <button
                         onClick={handleAddToContacts}
                         disabled={isAddingContact}
-                        className="flex flex-col items-center p-2 mobile-tap mobile-haptic"
+                        aria-label={isAddingContact ? "Adding to contacts..." : "Add to contacts"}
+                        className="flex flex-col items-center p-2 mobile-tap mobile-haptic transform transition-all duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-corporate-500 focus:ring-offset-2 disabled:opacity-70"
                     >
-                        <div className="w-14 h-14 bg-corporate-600 rounded-2xl flex items-center justify-center shadow-xl mb-1">
+                        <div className={`w-14 h-14 bg-gradient-to-r from-corporate-600 to-corporate-700 rounded-2xl flex items-center justify-center shadow-xl mb-1 transition-all duration-300 ${isAddingContact ? 'animate-pulse' : 'hover:shadow-2xl'
+                            }`}>
                             {isAddingContact ? (
-                                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                <LoadingSpinner size="md" className="text-white" />
                             ) : (
                                 <Plus className="w-8 h-8 text-white" />
                             )}
@@ -348,22 +373,38 @@ export function MobileProfileView({ profile }: MobileProfileViewProps) {
                     {/* Social Tab */}
                     <button
                         onClick={() => setActiveSection('social')}
-                        className={`flex flex-col items-center p-3 mobile-tap mobile-haptic transition-colors ${activeSection === 'social' ? 'text-corporate-600' : 'text-business-400'}`}
+                        aria-label="View social networks"
+                        aria-pressed={activeSection === 'social'}
+                        className={`flex flex-col items-center p-3 mobile-tap mobile-haptic transition-all duration-300 rounded-2xl relative focus:outline-none focus:ring-2 focus:ring-corporate-500 focus:ring-offset-2 ${activeSection === 'social'
+                            ? 'text-corporate-600 bg-corporate-50 scale-105'
+                            : 'text-business-400 hover:text-business-600 hover:bg-business-50'
+                            }`}
                     >
-                        <Globe className="w-6 h-6 mb-1" />
+                        <Globe className={`w-6 h-6 mb-1 transition-transform ${activeSection === 'social' ? 'scale-110' : ''}`} />
                         <span className="text-xs font-medium">Social</span>
+                        {activeSection === 'social' && (
+                            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-corporate-600 rounded-full animate-pulse" />
+                        )}
                     </button>
 
                     {/* QR Tab */}
                     <button
                         onClick={() => setActiveSection('qr')}
-                        className={`flex flex-col items-center p-3 mobile-tap mobile-haptic transition-colors ${activeSection === 'qr' ? 'text-corporate-600' : 'text-business-400'}`}
+                        aria-label="Share profile with QR code"
+                        aria-pressed={activeSection === 'qr'}
+                        className={`flex flex-col items-center p-3 mobile-tap mobile-haptic transition-all duration-300 rounded-2xl relative focus:outline-none focus:ring-2 focus:ring-corporate-500 focus:ring-offset-2 ${activeSection === 'qr'
+                            ? 'text-corporate-600 bg-corporate-50 scale-105'
+                            : 'text-business-400 hover:text-business-600 hover:bg-business-50'
+                            }`}
                     >
-                        <QrCode className="w-6 h-6 mb-1" />
+                        <QrCode className={`w-6 h-6 mb-1 transition-transform ${activeSection === 'qr' ? 'scale-110' : ''}`} />
                         <span className="text-xs font-medium">Share</span>
+                        {activeSection === 'qr' && (
+                            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-corporate-600 rounded-full animate-pulse" />
+                        )}
                     </button>
                 </div>
-            </div>
+            </nav>
         </div>
     )
 }

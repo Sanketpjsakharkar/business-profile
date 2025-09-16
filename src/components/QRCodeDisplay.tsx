@@ -2,16 +2,25 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Download, Share2 } from 'lucide-react'
+import { Check, Copy, Download, Share2 } from 'lucide-react'
 import { QRCodeSVG } from 'qrcode.react'
+import { useEffect, useState } from 'react'
 
 interface QRCodeDisplayProps {
     url: string
     title?: string
     size?: number
+    showActions?: boolean
+    className?: string
 }
 
-export function QRCodeDisplay({ url, title = "My Profile", size = 256 }: QRCodeDisplayProps) {
+export function QRCodeDisplay({ url, title = "My Profile", size = 256, showActions = true, className = "" }: QRCodeDisplayProps) {
+    const [copied, setCopied] = useState(false)
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
     const downloadQR = () => {
         const canvas = document.createElement('canvas')
         const ctx = canvas.getContext('2d')
@@ -49,50 +58,104 @@ export function QRCodeDisplay({ url, title = "My Profile", size = 256 }: QRCodeD
             } catch (error) {
                 console.log('Error sharing:', error)
                 // Fallback to copying URL
-                navigator.clipboard.writeText(url)
+                copyToClipboard()
             }
         } else {
             // Fallback to copying URL
-            navigator.clipboard.writeText(url)
-            alert('Profile URL copied to clipboard!')
+            copyToClipboard()
         }
     }
 
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(url)
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
+    }
+
+    if (!mounted) {
+        return (
+            <div className={`flex items-center justify-center ${className}`} style={{ width: size, height: size }}>
+                <div className="animate-pulse bg-gray-200 rounded" style={{ width: size, height: size }}></div>
+            </div>
+        )
+    }
+
+    if (!showActions) {
+        return (
+            <div className={`flex items-center justify-center ${className}`}>
+                <QRCodeSVG
+                    id="qr-code-svg"
+                    value={url}
+                    size={size}
+                    level="H"
+                    includeMargin={false}
+                    style={{
+                        height: 'auto',
+                        maxWidth: '100%',
+                        width: '100%',
+                    }}
+                />
+            </div>
+        )
+    }
+
     return (
-        <Card className="w-full max-w-sm mx-auto">
-            <CardHeader className="text-center">
-                <CardTitle className="text-lg">{title}</CardTitle>
+        <Card className={`w-full max-w-sm mx-auto border-0 shadow-xl ${className}`}>
+            <CardHeader className="text-center pb-4">
+                <CardTitle className="text-lg font-semibold text-business-900">{title}</CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col items-center space-y-4">
-                <div className="p-4 bg-white rounded-lg">
-                    <QRCodeSVG
-                        id="qr-code-svg"
-                        value={url}
-                        size={size}
-                        level="M"
-                        includeMargin={true}
-                    />
+            <CardContent className="flex flex-col items-center space-y-6">
+                <div className="p-6 bg-white rounded-2xl shadow-inner border border-business-100">
+                    {mounted ? (
+                        <QRCodeSVG
+                            id="qr-code-svg"
+                            value={url}
+                            size={size}
+                            level="H"
+                            includeMargin={true}
+                            style={{
+                                height: 'auto',
+                                maxWidth: '100%',
+                                width: '100%',
+                            }}
+                        />
+                    ) : (
+                        <div className="animate-pulse bg-gray-200 rounded" style={{ width: size, height: size }}></div>
+                    )}
                 </div>
 
-                <div className="text-xs text-gray-500 text-center break-all px-2">
-                    {url}
-                </div>
-
-                <div className="flex space-x-2 w-full">
+                <div className="flex space-x-3 w-full">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={copyToClipboard}
+                        className="flex-1 border-business-300 text-business-700 hover:bg-business-50"
+                    >
+                        {copied ? (
+                            <>
+                                <Check className="w-4 h-4 mr-2 text-success-600" />
+                                Copied!
+                            </>
+                        ) : (
+                            <>
+                                <Copy className="w-4 h-4 mr-2" />
+                                Copy Link
+                            </>
+                        )}
+                    </Button>
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={downloadQR}
-                        className="flex-1"
+                        className="flex-1 border-business-300 text-business-700 hover:bg-business-50"
                     >
                         <Download className="w-4 h-4 mr-2" />
                         Download
                     </Button>
                     <Button
-                        variant="outline"
                         size="sm"
                         onClick={shareQR}
-                        className="flex-1"
+                        className="flex-1 bg-corporate-600 hover:bg-corporate-700 text-white"
                     >
                         <Share2 className="w-4 h-4 mr-2" />
                         Share

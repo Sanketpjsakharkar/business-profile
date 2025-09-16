@@ -8,7 +8,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import { useAuth } from '@/hooks/useAuth'
 import { generateProfileUrl } from '@/utils/qr'
 import {
-    BarChart3,
     Bell,
     Check,
     Copy,
@@ -19,6 +18,7 @@ import {
     LogOut,
     Plus,
     QrCode,
+    Search,
     Settings,
     Share2,
     Shield,
@@ -61,7 +61,7 @@ export function MobileDashboard() {
                 <div className="flex items-center justify-between px-6 py-4">
                     <div className="flex items-center space-x-3">
                         <Avatar className="h-10 w-10 ring-2 ring-business-200 shadow-lg">
-                            <AvatarImage src="" />
+                            <AvatarImage src={profile.avatar_url} />
                             <AvatarFallback className="text-sm font-bold bg-corporate-600 text-white">
                                 {profile.profile_type === 'individual'
                                     ? `${profile.first_name?.[0] || ''}${profile.last_name?.[0] || ''}`
@@ -461,13 +461,13 @@ export function MobileDashboard() {
                         <span className="text-xs font-medium">Home</span>
                     </button>
 
-                    {/* Analytics Tab */}
+                    {/* Search Tab */}
                     <button
-                        onClick={() => setActiveSection('analytics')}
-                        className={`flex flex-col items-center p-3 mobile-tap mobile-haptic transition-colors ${activeSection === 'analytics' ? 'text-corporate-600' : 'text-business-400'}`}
+                        onClick={() => router.push('/search')}
+                        className="flex flex-col items-center p-3 mobile-tap mobile-haptic transition-colors text-business-400 hover:text-corporate-600"
                     >
-                        <BarChart3 className="w-6 h-6 mb-1" />
-                        <span className="text-xs font-medium">Analytics</span>
+                        <Search className="w-6 h-6 mb-1" />
+                        <span className="text-xs font-medium">Search</span>
                     </button>
 
                     {/* Center Action Button */}

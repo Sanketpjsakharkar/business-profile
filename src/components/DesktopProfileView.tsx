@@ -1,5 +1,6 @@
 'use client'
 
+import { QRCodeDisplay } from '@/components/QRCodeDisplay'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -153,7 +154,7 @@ export function DesktopProfileView({ profile }: DesktopProfileViewProps) {
                                 {/* Avatar */}
                                 <div className="relative mb-6">
                                     <Avatar className="w-40 h-40 mx-auto border-4 border-white shadow-2xl ring-4 ring-business-100">
-                                        <AvatarImage src="" className="object-cover" />
+                                        <AvatarImage src={profile.avatar_url} className="object-cover" />
                                         <AvatarFallback className="text-3xl font-bold bg-corporate-600 text-white">
                                             {profile.profile_type === 'individual'
                                                 ? `${profile.first_name?.[0] || ''}${profile.last_name?.[0] || ''}`
@@ -350,8 +351,13 @@ export function DesktopProfileView({ profile }: DesktopProfileViewProps) {
                                     <p className="text-corporate-100 mt-2">Scan to connect</p>
                                 </div>
                                 <CardContent className="p-8 text-center">
-                                    <div className="w-48 h-48 bg-business-50 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-business-200">
-                                        <QrCode className="w-24 h-24 text-corporate-600" />
+                                    <div className="w-48 h-48 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 border border-business-200 p-4">
+                                        <QRCodeDisplay
+                                            url={typeof window !== 'undefined' ? window.location.href : `https://businessprofile.app/${profile.country_code}/${profile.username}`}
+                                            title=""
+                                            size={176}
+                                            showActions={false}
+                                        />
                                     </div>
                                     <p className="text-business-600 text-sm">Scan with your phone to save contact</p>
                                 </CardContent>

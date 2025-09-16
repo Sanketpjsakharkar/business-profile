@@ -2,6 +2,7 @@
 
 import { DesktopDashboard } from '@/components/DesktopDashboard'
 import { MobileDashboard } from '@/components/MobileDashboard'
+import { LoadingScreen } from '@/components/ui/loading'
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
@@ -17,14 +18,7 @@ export default function DashboardPage() {
     }, [user, loading, router])
 
     if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-white">
-                <div className="text-center space-y-4">
-                    <div className="w-16 h-16 border-4 border-corporate-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                    <p className="text-business-600 font-medium">Loading your professional dashboard...</p>
-                </div>
-            </div>
-        )
+        return <LoadingScreen message="Loading your professional dashboard..." />
     }
 
     if (!user) {

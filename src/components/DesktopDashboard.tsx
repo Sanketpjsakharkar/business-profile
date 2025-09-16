@@ -63,6 +63,7 @@ export function DesktopDashboard() {
 
     const sidebarItems = [
         { id: 'overview', label: 'Overview', icon: Home },
+        { id: 'search', label: 'Search Profiles', icon: Search, action: () => router.push('/search') },
         { id: 'analytics', label: 'Analytics', icon: BarChart3 },
         { id: 'profile', label: 'Profile', icon: User },
         { id: 'share', label: 'Share & QR', icon: Share2 },
@@ -91,7 +92,7 @@ export function DesktopDashboard() {
                     <div className="flex items-center space-x-3">
                         <div className="relative">
                             <Avatar className="h-12 w-12 ring-2 ring-business-200 shadow-lg">
-                                <AvatarImage src="" />
+                                <AvatarImage src={profile.avatar_url} />
                                 <AvatarFallback className="text-sm font-bold bg-corporate-600 text-white">
                                     {profile.profile_type === 'individual'
                                         ? `${profile.first_name?.[0] || ''}${profile.last_name?.[0] || ''}`
@@ -118,10 +119,10 @@ export function DesktopDashboard() {
                             return (
                                 <li key={item.id}>
                                     <button
-                                        onClick={() => setActiveView(item.id)}
+                                        onClick={() => item.action ? item.action() : setActiveView(item.id)}
                                         className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-200 ${activeView === item.id
-                                                ? 'bg-corporate-600 text-white shadow-lg'
-                                                : 'text-business-600 hover:bg-business-50 hover:text-corporate-600'
+                                            ? 'bg-corporate-600 text-white shadow-lg'
+                                            : 'text-business-600 hover:bg-business-50 hover:text-corporate-600'
                                             }`}
                                     >
                                         <Icon className="w-5 h-5" />

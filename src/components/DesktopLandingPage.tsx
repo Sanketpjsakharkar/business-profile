@@ -1,3 +1,4 @@
+import { QRCodeDisplay } from '@/components/QRCodeDisplay'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -54,17 +55,17 @@ export function DesktopLandingPage() {
 
                         {/* Professional CTA Buttons */}
                         <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
-                            <Button asChild size="lg" className="h-16 text-xl px-12 bg-corporate-600 hover:bg-corporate-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">
+                            <Button asChild size="lg" className="h-16 text-xl px-12 bg-corporate-600 hover:bg-corporate-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 button-hover">
                                 <Link href="/auth/register" className="flex items-center">
                                     <Zap className="w-6 h-6 mr-3" />
                                     Get Started
                                     <ArrowRight className="w-6 h-6 ml-3" />
                                 </Link>
                             </Button>
-                            <Button asChild variant="outline" size="lg" className="h-16 text-xl px-12 border-2 border-business-300 text-business-700 hover:bg-business-50 shadow-lg hover:shadow-xl transition-all duration-300">
-                                <Link href="/auth/login" className="flex items-center">
-                                    <User className="w-6 h-6 mr-3" />
-                                    Sign In
+                            <Button asChild variant="outline" size="lg" className="h-16 text-xl px-12 border-2 border-business-300 text-business-700 hover:bg-business-50 shadow-lg hover:shadow-xl transition-all duration-300 button-hover">
+                                <Link href="/search" className="flex items-center">
+                                    <Globe className="w-6 h-6 mr-3" />
+                                    Search Profiles
                                 </Link>
                             </Button>
                         </div>
@@ -118,7 +119,7 @@ export function DesktopLandingPage() {
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
-                    <Card className="border border-business-200 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white">
+                    <Card className="border border-business-200 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white premium-card animate-stagger">
                         <CardContent className="p-8 text-center">
                             <div className="w-16 h-16 bg-corporate-600 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:bg-corporate-700 transition-colors duration-300">
                                 <QrCode className="w-8 h-8 text-white" />
@@ -130,7 +131,7 @@ export function DesktopLandingPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="border border-business-200 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white">
+                    <Card className="border border-business-200 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white premium-card animate-stagger">
                         <CardContent className="p-8 text-center">
                             <div className="w-16 h-16 bg-success-600 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:bg-success-700 transition-colors duration-300">
                                 <User className="w-8 h-8 text-white" />
@@ -142,7 +143,7 @@ export function DesktopLandingPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="border border-business-200 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white">
+                    <Card className="border border-business-200 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white premium-card animate-stagger">
                         <CardContent className="p-8 text-center">
                             <div className="w-16 h-16 bg-business-600 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:bg-business-700 transition-colors duration-300">
                                 <Building2 className="w-8 h-8 text-white" />
@@ -154,7 +155,7 @@ export function DesktopLandingPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="border border-business-200 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white">
+                    <Card className="border border-business-200 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white premium-card animate-stagger">
                         <CardContent className="p-8 text-center">
                             <div className="w-16 h-16 bg-corporate-600 rounded-xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:bg-corporate-700 transition-colors duration-300">
                                 <Smartphone className="w-8 h-8 text-white" />
@@ -207,10 +208,15 @@ export function DesktopLandingPage() {
                         </div>
                     </div>
                     <div className="relative">
-                        <div className="w-full h-96 bg-gradient-to-br from-business-50 to-corporate-50 rounded-2xl flex items-center justify-center shadow-xl border border-business-200">
+                        <div className="w-full h-96 bg-gradient-to-br from-business-50 to-corporate-50 rounded-2xl flex items-center justify-center shadow-xl border border-business-200 p-8">
                             <div className="text-center">
-                                <div className="w-32 h-32 bg-white rounded-2xl shadow-lg flex items-center justify-center mx-auto mb-6 border border-business-200">
-                                    <QrCode className="w-20 h-20 text-corporate-600" />
+                                <div className="w-48 h-48 bg-white rounded-2xl shadow-lg flex items-center justify-center mx-auto mb-6 border border-business-200 p-4">
+                                    <QRCodeDisplay
+                                        url={typeof window !== 'undefined' ? window.location.origin : 'https://businessprofile.app'}
+                                        title=""
+                                        size={160}
+                                        showActions={false}
+                                    />
                                 </div>
                                 <p className="text-business-700 font-semibold">Professional QR Code</p>
                                 <p className="text-business-500 text-sm mt-2">Scan to connect instantly</p>
@@ -238,9 +244,9 @@ export function DesktopLandingPage() {
                                 </Link>
                             </Button>
                             <Button asChild variant="outline" size="lg" className="h-16 text-xl px-12 border-2 border-white text-white hover:bg-white hover:text-business-900 shadow-xl hover:shadow-2xl transition-all duration-300">
-                                <Link href="/us/demo-user" className="flex items-center">
+                                <Link href="/auth/login" className="flex items-center">
                                     <Globe className="w-6 h-6 mr-3" />
-                                    View Demo Profile
+                                    Sign In
                                 </Link>
                             </Button>
                         </div>

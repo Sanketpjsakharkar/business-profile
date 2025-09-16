@@ -19,6 +19,7 @@ export interface BaseProfile {
     phone?: string
     social_links?: SocialLinks
     is_active: boolean
+    avatar_url?: string
 }
 
 export interface IndividualProfile extends BaseProfile {

@@ -1,5 +1,6 @@
 'use client'
 
+import { QRCodeDisplay } from '@/components/QRCodeDisplay'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -57,10 +58,13 @@ export function MobileLandingPage() {
 
                         {/* QR Code Demo */}
                         <div className="relative">
-                            <div className="w-48 h-48 bg-white rounded-3xl shadow-2xl mx-auto p-8 border border-business-200">
-                                <div className="w-full h-full bg-business-50 rounded-2xl flex items-center justify-center border-2 border-dashed border-business-300">
-                                    <QrCode className="w-20 h-20 text-corporate-600" />
-                                </div>
+                            <div className="w-48 h-48 bg-white rounded-3xl shadow-2xl mx-auto p-6 border border-business-200">
+                                <QRCodeDisplay
+                                    url="https://businessprofile.app"
+                                    title=""
+                                    size={168}
+                                    showActions={false}
+                                />
                             </div>
                             <div className="absolute -top-2 -right-2 w-8 h-8 bg-success-500 rounded-full flex items-center justify-center shadow-lg animate-pulse">
                                 <Sparkles className="w-4 h-4 text-white" />
@@ -77,9 +81,9 @@ export function MobileLandingPage() {
                                 </Link>
                             </Button>
                             <Button asChild variant="outline" className="w-full h-14 text-base font-semibold mobile-tap mobile-haptic border-2 border-business-300 text-business-700 hover:bg-business-50 shadow-lg rounded-2xl">
-                                <Link href="/us/demo-user" className="flex items-center justify-center">
+                                <Link href="/search" className="flex items-center justify-center">
                                     <Eye className="w-5 h-5 mr-2" />
-                                    View Demo
+                                    Search Profiles
                                 </Link>
                             </Button>
                         </div>
@@ -283,9 +287,9 @@ export function MobileLandingPage() {
                                 </Link>
                             </Button>
                             <Button asChild variant="outline" className="w-full h-12 text-base font-semibold mobile-tap mobile-haptic border-2 border-white text-white hover:bg-white hover:text-corporate-600 shadow-xl rounded-2xl">
-                                <Link href="/us/demo-user" className="flex items-center justify-center">
+                                <Link href="/search" className="flex items-center justify-center">
                                     <Globe className="w-4 h-4 mr-2" />
-                                    View Demo
+                                    Search Profiles
                                 </Link>
                             </Button>
                         </div>

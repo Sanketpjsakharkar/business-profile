@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { LoadingSpinner } from '@/components/ui/loading'
 import { useAuth } from '@/hooks/useAuth'
 import { ProfileType } from '@/types/profile'
 import {
@@ -199,8 +200,8 @@ export function MobileAuthForm({ mode }: MobileAuthFormProps) {
                                         <div
                                             onClick={() => setProfileType('individual')}
                                             className={`p-6 rounded-2xl border-2 cursor-pointer mobile-tap mobile-haptic transition-all duration-300 ${profileType === 'individual'
-                                                    ? 'border-corporate-500 bg-corporate-50 shadow-lg'
-                                                    : 'border-business-200 bg-white hover:border-business-300'
+                                                ? 'border-corporate-500 bg-corporate-50 shadow-lg'
+                                                : 'border-business-200 bg-white hover:border-business-300'
                                                 }`}
                                         >
                                             <div className="flex items-center space-x-4">
@@ -223,8 +224,8 @@ export function MobileAuthForm({ mode }: MobileAuthFormProps) {
                                         <div
                                             onClick={() => setProfileType('company')}
                                             className={`p-6 rounded-2xl border-2 cursor-pointer mobile-tap mobile-haptic transition-all duration-300 ${profileType === 'company'
-                                                    ? 'border-corporate-500 bg-corporate-50 shadow-lg'
-                                                    : 'border-business-200 bg-white hover:border-business-300'
+                                                ? 'border-corporate-500 bg-corporate-50 shadow-lg'
+                                                : 'border-business-200 bg-white hover:border-business-300'
                                                 }`}
                                         >
                                             <div className="flex items-center space-x-4">
@@ -262,11 +263,11 @@ export function MobileAuthForm({ mode }: MobileAuthFormProps) {
                                         <Button
                                             type="submit"
                                             disabled={loading}
-                                            className="w-full h-16 text-lg font-semibold mobile-tap mobile-haptic bg-corporate-600 hover:bg-corporate-700 text-white shadow-xl rounded-2xl transition-all duration-300"
+                                            className="w-full h-16 text-lg font-semibold mobile-tap mobile-haptic bg-corporate-600 hover:bg-corporate-700 text-white shadow-xl rounded-2xl transition-all duration-300 disabled:opacity-70"
                                         >
                                             {loading ? (
                                                 <div className="flex items-center">
-                                                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3" />
+                                                    <LoadingSpinner size="sm" className="mr-3 text-white" />
                                                     {mode === 'login' ? 'Signing In...' : 'Creating Account...'}
                                                 </div>
                                             ) : (

@@ -66,6 +66,33 @@
 
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'pnum' 1, 'tnum' 0, 'onum' 1, 'lnum' 0, 'dlig' 0;
+  }
+
+  /* Typography improvements */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1, 'dlig' 1;
+    letter-spacing: -0.025em;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 
@@ -85,12 +112,39 @@
   .mobile-tap {
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-    transition: all 0.15s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .mobile-tap:active {
-    transform: scale(0.98);
-    opacity: 0.8;
+    transform: scale(0.96);
+    opacity: 0.9;
+  }
+
+  /* Enhanced button interactions */
+  .button-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .button-hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .button-hover:hover::before {
+    left: 100%;
+  }
+
+  .button-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   }
 
   /* Smooth scrolling */
@@ -199,7 +253,7 @@
 
   /* Premium animations */
   .animate-fade-in {
-    animation: fadeIn 0.6s ease-out;
+    animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   @keyframes fadeIn {
@@ -211,6 +265,43 @@
     to {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  /* Staggered animations */
+  .animate-stagger {
+    animation: staggerIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  .animate-stagger:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+
+  .animate-stagger:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .animate-stagger:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .animate-stagger:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+
+  .animate-stagger:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+
+  @keyframes staggerIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
   }
 

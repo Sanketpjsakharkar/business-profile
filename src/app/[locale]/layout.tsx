@@ -66,10 +66,22 @@ export default function RootLayout({
 
               // PWA Install Prompt
               let deferredPrompt;
+              const PWA_DISMISSED_KEY = 'pwa-install-dismissed';
+              const PWA_INSTALLED_KEY = 'pwa-installed';
+              
               window.addEventListener('beforeinstallprompt', (e) => {
                 console.log('PWA install prompt available');
                 e.preventDefault();
                 deferredPrompt = e;
+                
+                // Check if user has already dismissed or installed
+                const isDismissed = localStorage.getItem(PWA_DISMISSED_KEY);
+                const isInstalled = localStorage.getItem(PWA_INSTALLED_KEY);
+                
+                // Don't show if already dismissed or installed
+                if (isDismissed || isInstalled) {
+                  return;
+                }
                 
                 // Show custom install button or banner
                 const installBanner = document.createElement('div');
@@ -89,8 +101,14 @@ export default function RootLayout({
                   cursor: pointer;
                   transform: translateY(-100%);
                   transition: transform 0.3s ease;
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
                 \`;
-                installBanner.innerHTML = '📱 Install BusinessProfile app for the best experience - Tap here!';
+                installBanner.innerHTML = \`
+                  <span>📱 Install BusinessProfile app for the best experience - Tap here!</span>
+                  <button id="dismiss-pwa" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0 8px;">×</button>
+                \`;
                 
                 document.body.appendChild(installBanner);
                 
@@ -99,23 +117,41 @@ export default function RootLayout({
                   installBanner.style.transform = 'translateY(0)';
                 }, 2000);
                 
+                // Handle dismiss button
+                const dismissBtn = installBanner.querySelector('#dismiss-pwa');
+                dismissBtn.addEventListener('click', (e) => {
+                  e.stopPropagation();
+                  localStorage.setItem(PWA_DISMISSED_KEY, 'true');
+                  installBanner.style.transform = 'translateY(-100%)';
+                  setTimeout(() => installBanner.remove(), 300);
+                });
+                
+                // Handle install click
                 installBanner.addEventListener('click', async () => {
                   if (deferredPrompt) {
                     deferredPrompt.prompt();
                     const { outcome } = await deferredPrompt.userChoice;
                     console.log('PWA install outcome:', outcome);
+                    
+                    if (outcome === 'accepted') {
+                      localStorage.setItem(PWA_INSTALLED_KEY, 'true');
+                    } else {
+                      localStorage.setItem(PWA_DISMISSED_KEY, 'true');
+                    }
+                    
                     deferredPrompt = null;
                     installBanner.remove();
                   }
                 });
                 
-                // Auto-hide banner after 10 seconds
+                // Auto-hide banner after 15 seconds
                 setTimeout(() => {
                   if (installBanner.parentNode) {
+                    localStorage.setItem(PWA_DISMISSED_KEY, 'true');
                     installBanner.style.transform = 'translateY(-100%)';
                     setTimeout(() => installBanner.remove(), 300);
                   }
-                }, 10000);
+                }, 15000);
               });
 
               // Handle successful installation

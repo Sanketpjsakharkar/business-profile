@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { LoadingSpinner } from '@/components/ui/loading'
 import { useAuth } from '@/hooks/useAuth'
 import { ProfileType } from '@/types/profile'
 import {
@@ -168,8 +169,8 @@ export function DesktopAuthForm({ mode }: DesktopAuthFormProps) {
                                         <div
                                             onClick={() => setProfileType('individual')}
                                             className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 ${profileType === 'individual'
-                                                    ? 'border-corporate-500 bg-corporate-50 shadow-lg'
-                                                    : 'border-business-200 bg-white hover:border-business-300'
+                                                ? 'border-corporate-500 bg-corporate-50 shadow-lg'
+                                                : 'border-business-200 bg-white hover:border-business-300'
                                                 }`}
                                         >
                                             <div className="flex items-center space-x-3">
@@ -192,8 +193,8 @@ export function DesktopAuthForm({ mode }: DesktopAuthFormProps) {
                                         <div
                                             onClick={() => setProfileType('company')}
                                             className={`p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 ${profileType === 'company'
-                                                    ? 'border-corporate-500 bg-corporate-50 shadow-lg'
-                                                    : 'border-business-200 bg-white hover:border-business-300'
+                                                ? 'border-corporate-500 bg-corporate-50 shadow-lg'
+                                                : 'border-business-200 bg-white hover:border-business-300'
                                                 }`}
                                         >
                                             <div className="flex items-center space-x-3">
@@ -227,11 +228,11 @@ export function DesktopAuthForm({ mode }: DesktopAuthFormProps) {
                             <Button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full h-14 text-lg font-semibold bg-corporate-600 hover:bg-corporate-700 text-white shadow-xl rounded-xl transition-all duration-300"
+                                className="w-full h-14 text-lg font-semibold bg-corporate-600 hover:bg-corporate-700 text-white shadow-xl rounded-xl transition-all duration-300 disabled:opacity-70"
                             >
                                 {loading ? (
                                     <div className="flex items-center">
-                                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3" />
+                                        <LoadingSpinner size="sm" className="mr-3 text-white" />
                                         {mode === 'login' ? 'Signing In...' : 'Creating Account...'}
                                     </div>
                                 ) : (

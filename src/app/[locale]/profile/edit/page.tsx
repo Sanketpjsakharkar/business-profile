@@ -1,5 +1,6 @@
 'use client'
 
+import { AvatarUpload } from '@/components/ui/avatar-upload'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -147,6 +148,32 @@ export default function EditProfilePage() {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-8">
+                    {/* Profile Picture */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Profile Picture</CardTitle>
+                            <CardDescription>
+                                Upload a profile picture to personalize your {profile.profile_type} profile
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="flex justify-center py-8">
+                            <AvatarUpload
+                                currentAvatar={profile.avatar_url}
+                                userId={profile.id}
+                                displayName={
+                                    profile.profile_type === 'individual'
+                                        ? `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || profile.username
+                                        : profile.company_name || profile.username
+                                }
+                                onAvatarUpdate={(avatarUrl) => {
+                                    // Update the profile state immediately for UI feedback
+                                    updateProfile({ avatar_url: avatarUrl })
+                                }}
+                                size="xl"
+                            />
+                        </CardContent>
+                    </Card>
+
                     {/* Basic Information */}
                     <Card>
                         <CardHeader>

@@ -12,34 +12,6 @@ interface PublicProfilePageProps {
 
 async function getProfile(country: string, username: string): Promise<Profile | null> {
     try {
-        // DEMO MODE - Return demo profile data
-        // In production, replace this with actual Supabase query
-        if (username === 'demo-user' && country.toLowerCase() === 'us') {
-            const demoProfile: Profile = {
-                id: 'demo-user-id',
-                email: 'demo@example.com',
-                username: 'demo-user',
-                profile_type: 'individual',
-                country_code: 'us',
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString(),
-                first_name: 'Demo',
-                last_name: 'User',
-                phone: '+1 (555) 123-4567',
-                address: '123 Demo Street, Demo City, DC 12345',
-                bio: 'This is a demo profile for testing the BusinessProfile app. I\'m passionate about technology and building amazing digital experiences.',
-                social_links: {
-                    website: 'https://example.com',
-                    linkedin: 'https://linkedin.com/in/demo-user',
-                    twitter: 'https://twitter.com/demouser',
-                    github: 'https://github.com/demouser'
-                },
-                is_active: true
-            }
-            return demoProfile
-        }
-
-        // For production use:
         const { data, error } = await supabase
             .from('profiles')
             .select('*')
@@ -48,7 +20,12 @@ async function getProfile(country: string, username: string): Promise<Profile | 
             .eq('is_active', true)
             .single()
 
-        if (error || !data) {
+        if (error) {
+            console.error('Error fetching profile:', error)
+            return null
+        }
+
+        if (!data) {
             return null
         }
 
